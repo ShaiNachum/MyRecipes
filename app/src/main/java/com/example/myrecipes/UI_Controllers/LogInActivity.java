@@ -113,12 +113,11 @@ public class LogInActivity extends AppCompatActivity {
 
     private void favoritesClicked() {
 
-
     }
 
 
     private void allRecipesClicked() {
-
+        //test
 
     }
 
