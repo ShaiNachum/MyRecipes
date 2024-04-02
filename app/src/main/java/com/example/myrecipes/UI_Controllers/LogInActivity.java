@@ -117,7 +117,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void allRecipesClicked() {
-        //test
+
 
     }
 
