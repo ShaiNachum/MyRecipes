@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.myRecipes.R;
+import com.example.myrecipes.Utilities.SignalManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -36,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
     private ShapeableImageView login_IMG_favorites;
     private ShapeableImageView login_IMG_logOut;
     private FirebaseAuth auth;
+
 
 
     @Override
@@ -123,8 +125,8 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void addRecipeClicked() {
-
-
+        Intent intent = new Intent(LogInActivity.this, AddRecipeActivity.class);
+        startActivity(intent);
     }
 
     
