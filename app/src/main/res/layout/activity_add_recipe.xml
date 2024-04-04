@@ -28,7 +28,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/addRecipe_IMG_dishName"
+        android:id="@+id/addRecipe_TXT_dishName"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -41,10 +41,10 @@
         />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/addRecipe_IMG_dishDescription"
+        android:id="@+id/addRecipe_TXT_dishDescription"
         android:layout_width="350dp"
         android:layout_height="250dp"
-        android:layout_below="@+id/addRecipe_IMG_dishName"
+        android:layout_below="@+id/addRecipe_TXT_dishName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:isScrollContainer="true"
@@ -53,7 +53,6 @@
         android:textSize="15sp"
         android:textStyle="italic"
         android:gravity="left"
-
         />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -63,7 +62,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         app:srcCompat="@drawable/ic_save"
-        android:layout_below="@id/addRecipe_IMG_dishDescription"
+        android:layout_below="@id/addRecipe_TXT_dishDescription"
         />
 
 </RelativeLayout>

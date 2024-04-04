@@ -11,6 +11,9 @@ constraintlayout = "2.1.4"
 gms = "4.4.1"
 authUI = "7.2.0"
 gmsPlayServicesAuth = "20.7.0"
+glide = "4.16.0"
+googleServices = "4.3.14"
+firebaseFirestore = "24.4.1"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -24,9 +27,13 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-analytics = { module = "com.google.firebase:firebase-analytics"}
 firebase-authentication-ui = { module = "com.firebaseui:firebase-ui-auth", version.ref = "authUI" }
 gms-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "gmsPlayServicesAuth" }
+glide-implementation = {module = "com.github.bumptech.glide:glide", version.ref = "glide"}
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 gmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "gms" }
+
 
 

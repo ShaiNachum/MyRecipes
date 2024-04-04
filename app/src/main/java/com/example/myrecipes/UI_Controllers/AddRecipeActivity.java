@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresExtension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,20 +23,31 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Utilities.SignalManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddRecipeActivity extends AppCompatActivity {
     private static final int SMALL_VIBRATE = 50;
     private ShapeableImageView addRecipe_IMG_dishPhoto;
     private ShapeableImageView addRecipe_IMG_addPhoto;
     private ShapeableImageView addRecipe_IMG_save;
-    private EditText addRecipe_IMG_dishName;
-    private EditText addRecipe_IMG_dishDescription;
+    private EditText addRecipe_TXT_dishName;
+    private EditText addRecipe_TXT_dishDescription;
     private String dishName;
     private String dishDescription;
     private Uri imageUri;
     private Recipe recipe;
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     ActivityResultLauncher<Intent> resultLauncher;
 
@@ -83,8 +96,8 @@ public class AddRecipeActivity extends AppCompatActivity {
         addRecipe_IMG_dishPhoto = findViewById(R.id.addRecipe_IMG_dishPhoto);
         addRecipe_IMG_addPhoto = findViewById(R.id.addRecipe_IMG_addPhoto);
 
-        addRecipe_IMG_dishName = findViewById(R.id.addRecipe_IMG_dishName);
-        addRecipe_IMG_dishDescription = findViewById(R.id.addRecipe_IMG_dishDescription);
+        addRecipe_TXT_dishName = findViewById(R.id.addRecipe_TXT_dishName);
+        addRecipe_TXT_dishDescription = findViewById(R.id.addRecipe_TXT_dishDescription);
 
         addRecipe_IMG_save = findViewById(R.id.addRecipe_IMG_save);
     }
@@ -96,14 +109,17 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
     private void saveClicked(){
-        this.dishName = addRecipe_IMG_dishName.getText().toString();
-        this.dishDescription = addRecipe_IMG_dishDescription.getText().toString();
+        this.dishName = addRecipe_TXT_dishName.getText().toString();
+        this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
         recipe.setName(this.dishName);
         recipe.setDescription(this.dishDescription);
         recipe.setPhoto(this.imageUri);
 
         //TODO: add to allRecipes list
-        //TODO: go back to login
+
+        Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 }

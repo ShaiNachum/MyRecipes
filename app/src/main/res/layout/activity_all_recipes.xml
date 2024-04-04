@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.myrecipes.UI_Controllers.AllRecipesActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allRecipes_LST_recipes"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_centerHorizontal="true"
+        tools:listitem="@layout/recipe_item"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/allRecipes_IMG_back"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/ic_back"
+        android:layout_below="@id/allRecipes_LST_recipes"
+        />
+</RelativeLayout>

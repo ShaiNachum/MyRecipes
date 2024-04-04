@@ -1,7 +1,6 @@
 package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -13,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.example.myRecipes.R;
+import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.SignalManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -37,6 +37,7 @@ public class LogInActivity extends AppCompatActivity {
     private ShapeableImageView login_IMG_favorites;
     private ShapeableImageView login_IMG_logOut;
     private FirebaseAuth auth;
+    private User user;
 
 
 
@@ -62,19 +63,13 @@ public class LogInActivity extends AppCompatActivity {
 
     private void checkLogIn(){
         auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
 
-        if(user == null)
+        if(firebaseUser == null)
             login();
         else{
-            String uid = user.getUid();
-            String phone = user.getPhoneNumber();
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            String pid = user.getProviderId();
-            String tid = user.getTenantId();
-            Uri photo  = user.getPhotoUrl();
-            int x = 0;
+            this.user = new User();
+            user.setUid(firebaseUser.getUid());
         }
     }
 
@@ -125,6 +120,9 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void addRecipeClicked() {
+
+
+
         Intent intent = new Intent(LogInActivity.this, AddRecipeActivity.class);
         startActivity(intent);
     }
@@ -175,3 +173,25 @@ public class LogInActivity extends AppCompatActivity {
 
 
 }
+
+
+/*
+
+TODO:
+להפעיל כפתור לאקטיביטי של כל המתכונים
+
+לשאול לגבי החזרה מכל אינטנט, מה לכבות ומה לא
+
+אקטיביטי למועדפים
+
+רקע לכל אקטיביטי
+
+לוגו לאפליקציה
+
+בעת לחיצה על מתכון בריסייקלר ויו נפתח אקטיביטי מתכון וכשאני לוחץ חזור אני חוזר לאקטיביטי של הרשימת מתכונים
+
+כשאני לוחץ על הוספה למועדפים של מתכון אני מוסיף אותו לרשימת המועדפים וכשאני לוחץ על הסרה הוא מוסר מהרשימה
+
+כשאני מסיים ליצור מתכון להוסיף אותו לרשימת המתכונים של אותו משתמש
+
+*/
