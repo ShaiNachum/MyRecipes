@@ -6,6 +6,7 @@ public class Recipe{
     private String name = "";
     private String description = "";
     private Uri photo;
+    private String uid;
     private boolean isFavorite = false;
 
     public Recipe(){
@@ -35,6 +36,15 @@ public class Recipe{
 
     public Recipe setPhoto(Uri photo) {
         this.photo = photo;
+        return this;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public Recipe setUid(String uid) {
+        this.uid = uid;
         return this;
     }
 

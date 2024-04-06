@@ -1,11 +1,13 @@
 package com.example.myrecipes.Models;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class User {
     private String uid;
-    private ArrayList<Recipe> recipesArrayList = new ArrayList<>();
-    private ArrayList<Recipe> favoriteRecipesArrayList = new ArrayList<>();
+    private Map<String , Recipe> recipesMap;
+    private ArrayList<String> favoritesRecipesUidList;
+
 
     public User(){
     }
@@ -19,22 +21,36 @@ public class User {
         return this;
     }
 
-    public ArrayList<Recipe> getRecipesArrayList() {
-        return recipesArrayList;
+    public Map<String, Recipe> getRecipesMap() {
+        return recipesMap;
     }
 
-    public User setRecipesArrayList(ArrayList<Recipe> recipesArrayList) {
-        this.recipesArrayList = recipesArrayList;
+    public User setRecipesMap(Map<String, Recipe> recipesMap) {
+        this.recipesMap = recipesMap;
         return this;
     }
 
-    public ArrayList<Recipe> getFavoriteRecipesArrayList() {
-        return favoriteRecipesArrayList;
+    public ArrayList<String> getFavoritesRecipesUidList() {
+        return favoritesRecipesUidList;
     }
 
-    public User setFavoriteRecipesArrayList(ArrayList<Recipe> favoriteRecipesArrayList) {
-        this.favoriteRecipesArrayList = favoriteRecipesArrayList;
+    public User setFavoritesRecipesUidList(ArrayList<String> favoritesRecipesUidList) {
+        this.favoritesRecipesUidList = favoritesRecipesUidList;
         return this;
     }
 
+    public ArrayList<Recipe> getAllRecipes(){
+        return new ArrayList<Recipe>(this.recipesMap.values());
+    }
+
+    public ArrayList<Recipe> getFavoriteRecipes(){
+
+        ArrayList<Recipe> favoriteRecipes = new ArrayList<Recipe>();
+
+        for (int i = 0; i < this.favoritesRecipesUidList.size() ; i++) {
+            favoriteRecipes.add(this.recipesMap.get(this.favoritesRecipesUidList.get(i)));
+        }
+
+        return favoriteRecipes;
+    }
 }
