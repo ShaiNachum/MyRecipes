@@ -29,11 +29,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +55,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String dishDescription;
     private Uri imageUri;
     private Recipe recipe;
+    private String uid;
 
     ActivityResultLauncher<Intent> resultLauncher;
 
@@ -71,6 +78,9 @@ public class AddRecipeActivity extends AppCompatActivity {
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(addRecipe_IMG_background);
+
+        Intent intent = getIntent();
+        this.uid = intent.getStringExtra("uid");
 
         initViews();
 
@@ -122,18 +132,12 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
-        this.recipe.setName(this.dishName)
-                .setDescription(this.dishDescription)
-                .setPhoto(this.imageUri);
+        this.recipe = new Recipe();
 
+        recipe.setPhoto(this.imageUri);
         recipe.setName(this.dishName);
         recipe.setDescription(this.dishDescription);
-        recipe.setPhoto(this.imageUri);
 
-
-
-
-        //TODO: add to allRecipes list
 
         Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
         startActivity(intent);

@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
+import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.SignalManager;
 import com.firebase.ui.auth.AuthUI;
@@ -26,7 +27,10 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,6 +45,8 @@ public class LogInActivity extends AppCompatActivity {
     private ShapeableImageView login_IMG_logOut;
     private FirebaseAuth auth;
     private User user;
+    private FirebaseDatabase db;
+    private DatabaseReference usersRef;
 
 
 
@@ -54,6 +60,9 @@ public class LogInActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        db = FirebaseDatabase.getInstance();
+        usersRef = db.getReference("users");
 
         findViews();
 
@@ -80,6 +89,9 @@ public class LogInActivity extends AppCompatActivity {
         }
         else{
             this.user = new User();
+
+            this.user.setUid(firebaseUser.getUid());
+
         }
     }
 
@@ -134,10 +146,10 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void addRecipeClicked() {
-
-
-
-
+        Intent intent = new Intent(LogInActivity.this, AddRecipeActivity.class);
+        intent.putExtra("uid", this.user.getUid());
+        startActivity(intent);
+        this.finish();
     }
 
     
@@ -175,7 +187,9 @@ public class LogInActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            // ...
+            DatabaseReference SpecificUserRef = usersRef.child(user.getUid());
+            SpecificUserRef.child("uid").setValue(user.getUid());
+
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -194,8 +208,6 @@ TODO:
 להפעיל כפתור לאקטיביטי של כל המתכונים
 
 לשאול לגבי החזרה מכל אינטנט, מה לכבות ומה לא
-
-לוגו לאפליקציה
 
 בעת לחיצה על מתכון בריסייקלר ויו נפתח אקטיביטי מתכון וכשאני לוחץ חזור אני חוזר לאקטיביטי של הרשימת מתכונים
 
