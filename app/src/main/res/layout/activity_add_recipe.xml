@@ -8,6 +8,12 @@
     tools:context="com.example.myrecipes.UI_Controllers.AddRecipeActivity">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/addRecipe_IMG_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/addRecipe_IMG_dishPhoto"
         android:layout_width="300dp"
         android:layout_height="250dp"
@@ -34,6 +40,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:hint="Enter Recipe Name"
+        android:text=""
         android:textSize="15dp"
         android:textStyle="italic"
         android:gravity="left"
@@ -49,6 +56,7 @@
         android:layout_marginTop="15dp"
         android:isScrollContainer="true"
         android:inputType="textMultiLine"
+        android:text=""
         android:hint="Enter Description"
         android:textSize="15sp"
         android:textStyle="italic"

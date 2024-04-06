@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.SignalManager;
@@ -29,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LogInActivity extends AppCompatActivity {
+    private ShapeableImageView login_IMG_background;
     private MaterialTextView login_LBL_addRecipe;
     private ShapeableImageView login_IMG_addRecipe;
     private MaterialTextView login_LBL_allRecipes;
@@ -54,6 +57,13 @@ public class LogInActivity extends AppCompatActivity {
 
         findViews();
 
+        Glide
+                .with(this)
+                .load(R.drawable.old_paper_background)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(login_IMG_background);
+
         initViews();
 
         checkLogIn();
@@ -65,11 +75,11 @@ public class LogInActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
 
-        if(firebaseUser == null)
+        if(firebaseUser == null){
             login();
+        }
         else{
             this.user = new User();
-            user.setUid(firebaseUser.getUid());
         }
     }
 
@@ -87,6 +97,8 @@ public class LogInActivity extends AppCompatActivity {
 
 
     private void findViews() {
+        login_IMG_background = findViewById(R.id.login_IMG_background);
+
         login_LBL_addRecipe = findViewById(R.id.login_LBL_addRecipe);
         login_IMG_addRecipe = findViewById(R.id.login_IMG_addRecipe);
 
@@ -110,10 +122,12 @@ public class LogInActivity extends AppCompatActivity {
 
     private void favoritesClicked() {
 
+
     }
 
 
     private void allRecipesClicked() {
+
 
 
     }
@@ -123,8 +137,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
 
-        Intent intent = new Intent(LogInActivity.this, AddRecipeActivity.class);
-        startActivity(intent);
+
     }
 
     
@@ -181,10 +194,6 @@ TODO:
 להפעיל כפתור לאקטיביטי של כל המתכונים
 
 לשאול לגבי החזרה מכל אינטנט, מה לכבות ומה לא
-
-אקטיביטי למועדפים
-
-רקע לכל אקטיביטי
 
 לוגו לאפליקציה
 

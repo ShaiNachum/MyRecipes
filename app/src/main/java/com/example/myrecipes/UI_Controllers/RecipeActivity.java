@@ -11,21 +11,24 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
 public class RecipeActivity extends AppCompatActivity {
-    private String name = "";
-    private String description = "";
-    private Uri photo;
-    private boolean isFavorite = false;
+    private ShapeableImageView recipe_IMG_background;
     private MaterialTextView recipe_TXT_recipeName;
     private ShapeableImageView recipe_IMG_dishPhoto;
     private MaterialTextView recipe_TXT_dishDescription;
     private ShapeableImageView recipe_IMG_back;
     private ShapeableImageView recipe_IMG_addFavorite;
     private ShapeableImageView recipe_IMG_removeFavorite;
+    private String name = "";
+    private String description = "";
+    private Uri photo;
+    private boolean isFavorite = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,13 @@ public class RecipeActivity extends AppCompatActivity {
         });
 
         findViews();
+
+        Glide
+                .with(this)
+                .load(R.drawable.old_paper_background)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(recipe_IMG_background);
 
         initViews();
     }
@@ -69,6 +79,7 @@ public class RecipeActivity extends AppCompatActivity {
     private void backClicked() {
     }
 
+
     private void addFavoriteClicked() {
     }
 
@@ -79,6 +90,7 @@ public class RecipeActivity extends AppCompatActivity {
 
 
     private void findViews() {
+        recipe_IMG_background = findViewById(R.id.recipe_IMG_background);
         recipe_TXT_recipeName = findViewById(R.id.recipe_TXT_recipeName);
         recipe_IMG_dishPhoto = findViewById(R.id.recipe_IMG_dishPhoto);
         recipe_TXT_dishDescription = findViewById(R.id.recipe_TXT_dishDescription);

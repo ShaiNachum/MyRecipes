@@ -2,6 +2,7 @@ package com.example.myrecipes.Utilities;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -25,18 +26,10 @@ public class ImageLoader {
         return instance;
     }
 
-    public void load (String link, ImageView imageView){
+    public void load (Uri uri, ImageView imageView){
         Glide.
                 with(appContext)
-                .load(link)
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(imageView);
-    }
-
-    public void load (Drawable drawable, ImageView imageView){
-        Glide.
-                with(appContext)
-                .load(drawable)
+                .load(uri)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(imageView);
     }

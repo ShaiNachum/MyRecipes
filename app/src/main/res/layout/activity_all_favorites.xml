@@ -5,25 +5,25 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myrecipes.UI_Controllers.AllRecipesActivity">
+    tools:context="com.example.myrecipes.UI_Controllers.AllFavoritesActivity">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/allRecipes_IMG_background"
+        android:id="@+id/allFavorites_IMG_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/allRecipes_LST_recipes"
+        android:id="@+id/allFavorites_LST_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         tools:listitem="@layout/recipe_item"
-        android:layout_above="@+id/allRecipes_IMG_back"
+        android:layout_above="@+id/allFavorites_IMG_back"
         />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/allRecipes_IMG_back"
+        android:id="@+id/allFavorites_IMG_back"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_centerHorizontal="true"
@@ -33,4 +33,5 @@
         app:srcCompat="@drawable/ic_back"
 
         />
+
 </RelativeLayout>

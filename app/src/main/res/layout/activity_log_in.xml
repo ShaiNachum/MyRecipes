@@ -8,6 +8,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.myrecipes.UI_Controllers.LogInActivity">
 
+  <com.google.android.material.imageview.ShapeableImageView
+      android:id="@+id/login_IMG_background"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
   <com.google.android.material.textview.MaterialTextView
       android:id="@+id/login_LBL_addRecipe"
       android:layout_width="wrap_content"
@@ -77,7 +83,7 @@
       android:layout_width="200dp"
       android:layout_height="100dp"
       android:layout_centerHorizontal="true"
-      android:layout_marginTop="55dp"
+      android:layout_marginTop="100dp"
       android:layout_below="@id/login_IMG_favorites"
       app:srcCompat="@drawable/ic_logout"
       />

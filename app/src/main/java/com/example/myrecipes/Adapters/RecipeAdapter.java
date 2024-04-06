@@ -22,6 +22,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private ArrayList<Recipe> recipes;
     private RecipeCallback recipeCallback;
 
+
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
         this.context = context;
         this.recipes = recipes;
@@ -42,9 +43,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position) {
         Recipe recipe = getItem(position);
-
-        //ImageLoader.getInstance().load(holder.recipe_IMG_image.setImageURI(recipe.getPhoto()));
-
+        ImageLoader.getInstance().load(recipe.getPhoto(), holder.recipe_IMG_image);
         holder.recipe_LBL_name.setText(recipe.getName());
     }
 
@@ -61,6 +60,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public class RecipeViewHolder extends RecyclerView.ViewHolder{
         private ShapeableImageView recipe_IMG_image;
         private MaterialTextView recipe_LBL_name;
+
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             recipe_IMG_image = itemView.findViewById(R.id.recipe_IMG_image);

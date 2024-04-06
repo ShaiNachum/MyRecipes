@@ -20,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Utilities.SignalManager;
@@ -38,6 +39,7 @@ import java.util.Map;
 
 public class AddRecipeActivity extends AppCompatActivity {
     private static final int SMALL_VIBRATE = 50;
+    private ShapeableImageView addRecipe_IMG_background;
     private ShapeableImageView addRecipe_IMG_dishPhoto;
     private ShapeableImageView addRecipe_IMG_addPhoto;
     private ShapeableImageView addRecipe_IMG_save;
@@ -47,7 +49,6 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String dishDescription;
     private Uri imageUri;
     private Recipe recipe;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     ActivityResultLauncher<Intent> resultLauncher;
 
@@ -63,6 +64,13 @@ public class AddRecipeActivity extends AppCompatActivity {
         });
 
         findViews();
+
+        Glide
+                .with(this)
+                .load(R.drawable.old_paper_background)
+                .centerCrop()
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(addRecipe_IMG_background);
 
         initViews();
 
@@ -93,6 +101,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
     private void findViews() {
+        addRecipe_IMG_background = findViewById(R.id.addRecipe_IMG_background);
+
         addRecipe_IMG_dishPhoto = findViewById(R.id.addRecipe_IMG_dishPhoto);
         addRecipe_IMG_addPhoto = findViewById(R.id.addRecipe_IMG_addPhoto);
 
@@ -112,9 +122,16 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
+        this.recipe.setName(this.dishName)
+                .setDescription(this.dishDescription)
+                .setPhoto(this.imageUri);
+
         recipe.setName(this.dishName);
         recipe.setDescription(this.dishDescription);
         recipe.setPhoto(this.imageUri);
+
+
+
 
         //TODO: add to allRecipes list
 

@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.myrecipes.UI_Controllers.RecipeActivity">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/recipe_IMG_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/recipe_TXT_recipeName"
         android:layout_width="wrap_content"
@@ -31,12 +37,15 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/recipe_TXT_dishDescription"
         android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         android:layout_below="@+id/recipe_IMG_dishPhoto"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:isScrollContainer="true"
         android:inputType="textMultiLine"
+        android:text="Recipe Description"
+        android:textStyle="italic"
+        android:textSize="25sp"
         />
 
     <com.google.android.material.imageview.ShapeableImageView

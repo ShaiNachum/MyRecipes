@@ -1,21 +1,41 @@
 package com.example.myrecipes.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
-public class User {
+public class User implements Parcelable {
     private String name;
     private String uid;
     private ArrayList<Recipe> recipesArrayList = new ArrayList<>();
     private ArrayList<Recipe> favoriteRecipesArrayList = new ArrayList<>();
-    private HashMap<String, Recipe> allRecipes = new HashMap<>();
-    private HashMap<String, Recipe> allFavorites = new HashMap<>();
 
+    public User(){
 
-    public User() {
     }
+
+    protected User(Parcel in) {
+        name = in.readString();
+        uid = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -53,21 +73,14 @@ public class User {
         return this;
     }
 
-    public HashMap<String, Recipe> getAllRecipes() {
-        return allRecipes;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public User setAllRecipes(HashMap<String, Recipe> allRecipes) {
-        this.allRecipes = allRecipes;
-        return this;
-    }
-
-    public HashMap<String, Recipe> getAllFavorites() {
-        return allFavorites;
-    }
-
-    public User setAllFavorites(HashMap<String, Recipe> allFavorites) {
-        this.allFavorites = allFavorites;
-        return this;
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(uid);
     }
 }

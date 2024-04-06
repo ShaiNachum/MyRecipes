@@ -52,4 +52,6 @@ dependencies {
     implementation(libs.gms.play.services.auth)
 
     implementation(libs.glide.implementation)
+
+    implementation(libs.firebase.database)
 }
