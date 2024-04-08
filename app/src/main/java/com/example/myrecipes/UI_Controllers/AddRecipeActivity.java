@@ -23,25 +23,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
+import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.SignalManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddRecipeActivity extends AppCompatActivity {
     private static final int SMALL_VIBRATE = 50;
@@ -49,13 +34,14 @@ public class AddRecipeActivity extends AppCompatActivity {
     private ShapeableImageView addRecipe_IMG_dishPhoto;
     private ShapeableImageView addRecipe_IMG_addPhoto;
     private ShapeableImageView addRecipe_IMG_save;
+    private ShapeableImageView addRecipe_IMG_cancel;
     private EditText addRecipe_TXT_dishName;
     private EditText addRecipe_TXT_dishDescription;
     private String dishName;
     private String dishDescription;
     private Uri imageUri;
     private Recipe recipe;
-    private String uid;
+    private User user;
 
     ActivityResultLauncher<Intent> resultLauncher;
 
@@ -79,14 +65,11 @@ public class AddRecipeActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(addRecipe_IMG_background);
 
-        Intent intent = getIntent();
-        this.uid = intent.getStringExtra("uid");
-
         initViews();
 
         registerResult();
-
     }
+
 
     private void registerResult(){
         resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -105,28 +88,18 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
 
-    private void initViews() {
-        addRecipe_IMG_addPhoto.setOnClickListener(v -> addPhotoClicked());
-        addRecipe_IMG_save.setOnClickListener(v -> saveClicked());
-    }
-
-    private void findViews() {
-        addRecipe_IMG_background = findViewById(R.id.addRecipe_IMG_background);
-
-        addRecipe_IMG_dishPhoto = findViewById(R.id.addRecipe_IMG_dishPhoto);
-        addRecipe_IMG_addPhoto = findViewById(R.id.addRecipe_IMG_addPhoto);
-
-        addRecipe_TXT_dishName = findViewById(R.id.addRecipe_TXT_dishName);
-        addRecipe_TXT_dishDescription = findViewById(R.id.addRecipe_TXT_dishDescription);
-
-        addRecipe_IMG_save = findViewById(R.id.addRecipe_IMG_save);
-    }
-
-
     private void addPhotoClicked() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
     }
+
+
+    private void cancelClicked() {
+        Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
 
     private void saveClicked(){
         this.dishName = addRecipe_TXT_dishName.getText().toString();
@@ -138,9 +111,31 @@ public class AddRecipeActivity extends AppCompatActivity {
         recipe.setName(this.dishName);
         recipe.setDescription(this.dishDescription);
 
+        this.user.getRecipes();//////////////////////////////////////////
 
         Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
         startActivity(intent);
         this.finish();
+    }
+
+
+    private void initViews() {
+        addRecipe_IMG_addPhoto.setOnClickListener(v -> addPhotoClicked());
+        addRecipe_IMG_save.setOnClickListener(v -> saveClicked());
+        addRecipe_IMG_cancel.setOnClickListener((v -> cancelClicked()));
+    }
+
+
+    private void findViews() {
+        addRecipe_IMG_background = findViewById(R.id.addRecipe_IMG_background);
+
+        addRecipe_IMG_dishPhoto = findViewById(R.id.addRecipe_IMG_dishPhoto);
+        addRecipe_IMG_addPhoto = findViewById(R.id.addRecipe_IMG_addPhoto);
+
+        addRecipe_TXT_dishName = findViewById(R.id.addRecipe_TXT_dishName);
+        addRecipe_TXT_dishDescription = findViewById(R.id.addRecipe_TXT_dishDescription);
+
+        addRecipe_IMG_save = findViewById(R.id.addRecipe_IMG_save);
+        addRecipe_IMG_cancel = findViewById(R.id.addRecipe_IMG_cancel);
     }
 }

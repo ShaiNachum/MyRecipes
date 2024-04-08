@@ -49,7 +49,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public int getItemCount() {
-        return recipes == null ? 0 : recipes.size();
+        return recipes.size();
     }
 
     private Recipe getItem(int position){
@@ -65,6 +65,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(itemView);
             recipe_IMG_image = itemView.findViewById(R.id.recipe_IMG_image);
             recipe_LBL_name = itemView.findViewById(R.id.recipe_LBL_name);
+
+            itemView.setOnClickListener(v -> {
+                if(recipeCallback != null)
+                    recipeCallback.recipeClicked(getItem(getAdapterPosition()), getAdapterPosition());
+            });
         }
     }
 }

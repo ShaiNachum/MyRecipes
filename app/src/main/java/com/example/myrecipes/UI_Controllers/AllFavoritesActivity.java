@@ -1,6 +1,7 @@
 package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -18,13 +19,15 @@ import com.example.myrecipes.App;
 import com.example.myrecipes.Interfaces.RecipeCallback;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
+import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class AllFavoritesActivity extends AppCompatActivity {
     private ShapeableImageView allFavorites_IMG_background;
     private RecyclerView allFavorites_LST_recipes;
     private ShapeableImageView allFavorites_IMG_back;
-    private User user = new User();
+    private User user;
+    private DataManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class AllFavoritesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        manager = DataManager.getInstance();
 
         findViews();
 
@@ -50,31 +55,34 @@ public class AllFavoritesActivity extends AppCompatActivity {
     }
 
 
+    private void backClicked() {
+        Intent intent = new Intent(AllFavoritesActivity.this, MenuActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+
     private void initViews() {
         allFavorites_IMG_back.setOnClickListener(v -> backClicked());
 
-        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(getApplicationContext(), user.getFavoriteRecipesArrayList());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         allFavorites_LST_recipes.setLayoutManager(linearLayoutManager);
+
+        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(this, this.manager.getMyUser().getFavorites());
+
         allFavorites_LST_recipes.setAdapter(favoriteAdapter);
 
-        favoriteAdapter.setRecipeCallback(new RecipeCallback() {
-            @Override
-            public void recipeClicked(Recipe recipe, int position) {
-                //TODO: move to recipe intent
-            }
+        favoriteAdapter.setRecipeCallback((recipe, position) -> {
+
+            Intent intent = new Intent(AllFavoritesActivity.this, RecipeActivity.class);
+            intent.putExtra("rid", recipe.getRid());
+            intent.putExtra("cameFromFavorites", true);
+            startActivity(intent);
         });
     }
 
-    private void backClicked() {
-        Intent intent = new Intent(AllFavoritesActivity.this, LogInActivity.class);
-
-        startActivity(intent);
-
-        this.finish();
-    }
 
     private void findViews() {
         allFavorites_IMG_background = findViewById(R.id.allFavorites_IMG_background);

@@ -2,6 +2,7 @@ package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultCallback;
@@ -16,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
-import com.example.myrecipes.Utilities.SignalManager;
+import com.example.myrecipes.Utilities.DataManager;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -27,28 +28,15 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class LogInActivity extends AppCompatActivity {
     private ShapeableImageView login_IMG_background;
-    private MaterialTextView login_LBL_addRecipe;
-    private ShapeableImageView login_IMG_addRecipe;
-    private MaterialTextView login_LBL_allRecipes;
-    private ShapeableImageView login_IMG_allRecipes;
-    private MaterialTextView login_LBL_favorites;
-    private ShapeableImageView login_IMG_favorites;
-    private ShapeableImageView login_IMG_logOut;
     private FirebaseAuth auth;
-    private User user;
-    private FirebaseDatabase db;
-    private DatabaseReference usersRef;
-
-
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +49,7 @@ public class LogInActivity extends AppCompatActivity {
             return insets;
         });
 
-        db = FirebaseDatabase.getInstance();
-        usersRef = db.getReference("users");
-
-        findViews();
+        login_IMG_background = findViewById(R.id.login_IMG_background);
 
         Glide
                 .with(this)
@@ -73,98 +58,22 @@ public class LogInActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(login_IMG_background);
 
-        initViews();
-
-        checkLogIn();
-
-    }
-
-
-    private void checkLogIn(){
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-
-        if(firebaseUser == null){
-            login();
-        }
-        else{
-            this.user = new User();
-
-            this.user.setUid(firebaseUser.getUid());
-
-        }
-    }
-
-
-    private void signOutClicked(){
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
         login();
     }
 
 
-    private void findViews() {
-        login_IMG_background = findViewById(R.id.login_IMG_background);
-
-        login_LBL_addRecipe = findViewById(R.id.login_LBL_addRecipe);
-        login_IMG_addRecipe = findViewById(R.id.login_IMG_addRecipe);
-
-        login_LBL_allRecipes = findViewById(R.id.login_LBL_allRecipes);
-        login_IMG_allRecipes = findViewById(R.id.login_IMG_allRecipes);
-
-        login_LBL_favorites = findViewById(R.id.login_LBL_favorites);
-        login_IMG_favorites = findViewById(R.id.login_IMG_favorites);
-
-        login_IMG_logOut = findViewById(R.id.login_IMG_logOut);
-    }
-
-
-    private void initViews() {
-        login_IMG_addRecipe.setOnClickListener(v -> addRecipeClicked());
-        login_IMG_allRecipes.setOnClickListener(v -> allRecipesClicked());
-        login_IMG_favorites.setOnClickListener(v -> favoritesClicked());
-        login_IMG_logOut.setOnClickListener(v -> signOutClicked());
-    }
-
-
-    private void favoritesClicked() {
-
-
-    }
-
-
-    private void allRecipesClicked() {
-
-
-
-    }
-
-
-    private void addRecipeClicked() {
-        Intent intent = new Intent(LogInActivity.this, AddRecipeActivity.class);
-        intent.putExtra("uid", this.user.getUid());
-        startActivity(intent);
-        this.finish();
-    }
-
-    
     private void login() {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.PhoneBuilder().build()
-                );
+                new AuthUI.IdpConfig.PhoneBuilder().build());
 
-// Create and launch sign-in intent
+        // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setLogo(R.drawable.ic_logo)
+                .setIsSmartLockEnabled(false)
                 .build();
         signInLauncher.launch(signInIntent);
     }
@@ -187,29 +96,36 @@ public class LogInActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference SpecificUserRef = usersRef.child(user.getUid());
-            SpecificUserRef.child("uid").setValue(user.getUid());
+            DataManager manager = DataManager.getInstance();
+            manager.loadBasicInformation();
+            //manager.setUser(user);
 
+
+
+
+//            manager.setUid(user);
+//            manager.InitGeneralData();
+//            manager.getFbmanager().LoadUserFromFBRTDB(user); //FIREBASE REALTIME DATABASE
+//            fbManager.LoadUserFromFBRTDB(user); //FIREBASE REALTIME DATABASE
+            int x = 10;
+            Intent intent = new Intent(LogInActivity.this, MenuActivity.class);
+            startActivity(intent);
+            finish();
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
+            Log.d("LogInError", "Sign in failed");
         }
     }
-
 
 }
 
 
 /*
-
 TODO:
-להפעיל כפתור לאקטיביטי של כל המתכונים
+לשלוח את המתכון כאובייקט ולא את השדות שלו
 
 לשאול לגבי החזרה מכל אינטנט, מה לכבות ומה לא
 
-בעת לחיצה על מתכון בריסייקלר ויו נפתח אקטיביטי מתכון וכשאני לוחץ חזור אני חוזר לאקטיביטי של הרשימת מתכונים
+בעת לחיצה על מתכון בריסייקלר ויו נפתח אקטיביטי מתכון וכשאני לוחץ חזור אני חוזר לאקטיביטי של הרשימת מתכונים או לאקטיביטי של רשימת המועדפים, בהתאם למה שהייתי קודם
 
 כשאני לוחץ על הוספה למועדפים של מתכון אני מוסיף אותו לרשימת המועדפים וכשאני לוחץ על הסרה הוא מוסר מהרשימה
 

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MyRecipes"
         tools:targetApi="31">
         <activity
+            android:name="com.example.myrecipes.UI_Controllers.MenuActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.myrecipes.UI_Controllers.AllFavoritesActivity"
             android:exported="false" />
         <activity

@@ -1,9 +1,9 @@
 package com.example.myrecipes.UI_Controllers;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
+import com.example.myrecipes.Models.Recipe;
+import com.example.myrecipes.Models.User;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -24,10 +26,15 @@ public class RecipeActivity extends AppCompatActivity {
     private ShapeableImageView recipe_IMG_back;
     private ShapeableImageView recipe_IMG_addFavorite;
     private ShapeableImageView recipe_IMG_removeFavorite;
+    private String rid = "";
     private String name = "";
     private String description = "";
     private Uri photo;
     private boolean isFavorite = false;
+    private boolean cameFromAllRecipes;
+    private boolean cameFromFavorites;
+    private User user;
+    private Recipe recipe;
 
 
     @Override
@@ -43,6 +50,13 @@ public class RecipeActivity extends AppCompatActivity {
 
         findViews();
 
+        Intent intent = getIntent();
+        this.rid = intent.getStringExtra("rid");
+
+        this.cameFromAllRecipes = intent.getBooleanExtra("cameFromAllRecipes", false);
+        this.cameFromFavorites = intent.getBooleanExtra("cameFromFavorites", false);
+
+
         Glide
                 .with(this)
                 .load(R.drawable.old_paper_background)
@@ -52,6 +66,33 @@ public class RecipeActivity extends AppCompatActivity {
 
         initViews();
     }
+
+
+    private void backClicked() {
+        if(this.cameFromAllRecipes){
+            Intent intent = new Intent(RecipeActivity.this, AllRecipesActivity.class);
+            this.cameFromAllRecipes = false;
+            startActivity(intent);
+            this.finish();
+        }
+        else if(this.cameFromFavorites){
+            Intent intent = new Intent(RecipeActivity.this, AllFavoritesActivity.class);
+            this.cameFromFavorites = false;
+            startActivity(intent);
+            this.finish();
+        }
+    }
+
+
+    private void addFavoriteClicked() {
+
+    }
+
+
+    private void removeFavoriteClicked() {
+
+    }
+
 
     private void initViews() {
         recipe_TXT_recipeName.setText(this.name);
@@ -75,18 +116,6 @@ public class RecipeActivity extends AppCompatActivity {
 
         recipe_IMG_back.setOnClickListener(v-> backClicked());
     }
-
-    private void backClicked() {
-    }
-
-
-    private void addFavoriteClicked() {
-    }
-
-
-    private void removeFavoriteClicked() {
-    }
-
 
 
     private void findViews() {

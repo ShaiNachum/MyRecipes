@@ -68,9 +68,19 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         app:srcCompat="@drawable/ic_save"
         android:layout_below="@id/addRecipe_TXT_dishDescription"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/addRecipe_IMG_cancel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/ic_cancel"
+        android:layout_below="@id/addRecipe_IMG_save"
         />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -17,13 +18,15 @@ import com.example.myrecipes.Adapters.RecipeAdapter;
 import com.example.myrecipes.Interfaces.RecipeCallback;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
+import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class AllRecipesActivity extends AppCompatActivity {
     private ShapeableImageView allRecipes_IMG_background;
     private RecyclerView allRecipes_LST_recipes;
     private ShapeableImageView allRecipes_IMG_back;
-    private User user = new User();
+    private DataManager manager;
+    private RecipeAdapter recipeAdapter;
 
 
     @Override
@@ -37,6 +40,8 @@ public class AllRecipesActivity extends AppCompatActivity {
             return insets;
         });
 
+        manager = DataManager.getInstance();
+
         findViews();
 
         Glide
@@ -49,36 +54,39 @@ public class AllRecipesActivity extends AppCompatActivity {
         initViews();
     }
 
-    private void findViews() {
-        allRecipes_IMG_background = findViewById(R.id.allRecipes_IMG_background);
-        allRecipes_LST_recipes = findViewById(R.id.allRecipes_LST_recipes);
-        allRecipes_IMG_back = findViewById(R.id.allRecipes_IMG_back);
+
+    private void backClicked() {
+        Intent intent = new Intent(AllRecipesActivity.this, MenuActivity.class);
+        startActivity(intent);
+        this.finish();
     }
+
 
     private void initViews() {
         allRecipes_IMG_back.setOnClickListener(v -> backClicked());
 
-        RecipeAdapter recipeAdapter = new RecipeAdapter(getApplicationContext(), user.getRecipesArrayList());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         allRecipes_LST_recipes.setLayoutManager(linearLayoutManager);
+
+        this.recipeAdapter = new RecipeAdapter(this, this.manager.getMyUser().getRecipes());
+
         allRecipes_LST_recipes.setAdapter(recipeAdapter);
 
-        recipeAdapter.setRecipeCallback(new RecipeCallback() {
-            @Override
-            public void recipeClicked(Recipe recipe, int position) {
-                //TODO: move to recipe intent
-            }
-        });
+        recipeAdapter.setRecipeCallback((recipe, position) -> {
 
+            Intent intent = new Intent(AllRecipesActivity.this, RecipeActivity.class);
+            intent.putExtra("rid", recipe.getRid());
+            intent.putExtra("cameFromAllRecipes", true);
+            startActivity(intent);
+        });
     }
 
-    private void backClicked() {
-        Intent intent = new Intent(AllRecipesActivity.this, LogInActivity.class);
 
-        startActivity(intent);
-
-        this.finish();
+    private void findViews() {
+        allRecipes_IMG_background = findViewById(R.id.allRecipes_IMG_background);
+        allRecipes_LST_recipes = findViewById(R.id.allRecipes_LST_recipes);
+        allRecipes_IMG_back = findViewById(R.id.allRecipes_IMG_back);
     }
 }

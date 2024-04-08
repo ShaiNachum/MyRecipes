@@ -1,15 +1,27 @@
 package com.example.myrecipes.Models;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 public class Recipe{
+    private String rid;
     private String name = "";
     private String description = "";
     private Uri photo;
-    private String uid;
     private boolean isFavorite = false;
 
     public Recipe(){
+    }
+
+    public Recipe(String rid, String name, String description, Uri photo, Boolean isFavorite) {
+        this.rid = rid;
+        this.name = name;
+        this.description = description;
+        this.photo = photo;
+        this.isFavorite = isFavorite;
     }
 
     public String getName() {
@@ -39,12 +51,12 @@ public class Recipe{
         return this;
     }
 
-    public String getUid() {
-        return uid;
+    public String getRid() {
+        return rid;
     }
 
-    public Recipe setUid(String uid) {
-        this.uid = uid;
+    public Recipe setRid(String rid) {
+        this.rid = rid;
         return this;
     }
 
@@ -56,4 +68,5 @@ public class Recipe{
         isFavorite = favorite;
         return this;
     }
+
 }

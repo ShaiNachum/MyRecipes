@@ -68,6 +68,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             super(itemView);
             favorite_IMG_image = itemView.findViewById(R.id.favorite_IMG_image);
             favorite_LBL_name = itemView.findViewById(R.id.favorite_LBL_name);
+
+            itemView.setOnClickListener(v -> {
+                if(recipeCallback != null)
+                    recipeCallback.recipeClicked(getItem(getAdapterPosition()), getAdapterPosition());
+            });
         }
     }
 }
