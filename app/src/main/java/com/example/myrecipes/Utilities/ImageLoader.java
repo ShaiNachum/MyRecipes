@@ -27,6 +27,7 @@ public class ImageLoader {
     }
 
     public void load (Uri uri, ImageView imageView){
+
         Glide.
                 with(appContext)
                 .load(uri)

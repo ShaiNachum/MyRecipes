@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +12,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresExtension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -24,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
+import com.example.myrecipes.Utilities.DataManager;
 import com.example.myrecipes.Utilities.SignalManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -40,10 +39,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String dishName;
     private String dishDescription;
     private Uri imageUri;
-    private Recipe recipe;
-    private User user;
-
-    ActivityResultLauncher<Intent> resultLauncher;
+    private DataManager manager;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +52,8 @@ public class AddRecipeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        manager = DataManager.getInstance();
 
         findViews();
 
@@ -88,6 +87,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
 
+    @RequiresExtension(extension = Build.VERSION_CODES.R, version = 2)
     private void addPhotoClicked() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
@@ -95,7 +95,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
 
     private void cancelClicked() {
-        Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
+        Intent intent = new Intent(AddRecipeActivity.this, MenuActivity.class);
         startActivity(intent);
         this.finish();
     }
@@ -105,15 +105,11 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
-        this.recipe = new Recipe();
+        Recipe recipe = new Recipe("6666", this.dishName, this.dishDescription, this.imageUri);//(String rid, String name, String description, Uri photo)
 
-        recipe.setPhoto(this.imageUri);
-        recipe.setName(this.dishName);
-        recipe.setDescription(this.dishDescription);
+        this.manager.getMyUser().getRecipes().add(recipe);
 
-        this.user.getRecipes();//////////////////////////////////////////
-
-        Intent intent = new Intent(AddRecipeActivity.this, LogInActivity.class);
+        Intent intent = new Intent(AddRecipeActivity.this, MenuActivity.class);
         startActivity(intent);
         this.finish();
     }

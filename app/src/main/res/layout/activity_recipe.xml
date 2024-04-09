@@ -52,24 +52,21 @@
         android:id="@+id/recipe_IMG_back"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@+id/recipe_TXT_dishDescription"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/ic_back"
         />
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/recipe_IMG_addFavorite"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@+id/recipe_TXT_dishDescription"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/ic_add_favorite"
         />
 
@@ -77,12 +74,21 @@
         android:id="@+id/recipe_IMG_removeFavorite"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@+id/recipe_TXT_dishDescription"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="15dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/ic_remove_favorite"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/recipe_IMG_deleteRecipe"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        app:srcCompat="@drawable/ic_bin"
         />
 </RelativeLayout>

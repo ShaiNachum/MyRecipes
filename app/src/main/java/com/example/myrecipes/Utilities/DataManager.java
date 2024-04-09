@@ -6,8 +6,6 @@ import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 
 public class DataManager {
@@ -44,11 +42,13 @@ public class DataManager {
         ArrayList <Recipe> recipes = new ArrayList<>();
         ArrayList <String> favorites = new ArrayList<>();
 
-        Recipe recipe1 = new Recipe("1234", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5") , false);
-        Recipe recipe2 = new Recipe("1234", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5") , false);
-        Recipe recipe3 = new Recipe("1234", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5") , false);
-        Recipe recipe4 = new Recipe("1234", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5") , true);
-        Recipe recipe5 = new Recipe("1234", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5") , true);
+        Recipe recipe1 = new Recipe("1111", "pizza" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
+        Recipe recipe2 = new Recipe("2222", "hamburger" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
+        Recipe recipe3 = new Recipe("3333", "sushi" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
+        Recipe recipe4 = new Recipe("4444", "pasta" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
+        recipe4.setFavorite(true);
+        Recipe recipe5 = new Recipe("5555", "shawarma" , "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
+        recipe5.setFavorite(true);
 
         recipes.add(recipe1);
         recipes.add(recipe2);

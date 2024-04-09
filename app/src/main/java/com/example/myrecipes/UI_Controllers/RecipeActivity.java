@@ -15,8 +15,11 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Models.User;
+import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
+
+import java.util.Objects;
 
 public class RecipeActivity extends AppCompatActivity {
     private ShapeableImageView recipe_IMG_background;
@@ -26,14 +29,15 @@ public class RecipeActivity extends AppCompatActivity {
     private ShapeableImageView recipe_IMG_back;
     private ShapeableImageView recipe_IMG_addFavorite;
     private ShapeableImageView recipe_IMG_removeFavorite;
+    private ShapeableImageView recipe_IMG_deleteRecipe;
     private String rid = "";
     private String name = "";
     private String description = "";
-    private Uri photo;
+    private Uri image;
     private boolean isFavorite = false;
     private boolean cameFromAllRecipes;
     private boolean cameFromFavorites;
-    private User user;
+    private DataManager manager;
     private Recipe recipe;
 
 
@@ -48,14 +52,18 @@ public class RecipeActivity extends AppCompatActivity {
             return insets;
         });
 
+        manager = DataManager.getInstance();
+
         findViews();
 
         Intent intent = getIntent();
         this.rid = intent.getStringExtra("rid");
 
+        getRecipeFromManager(rid);
+        getRecipeDetails(rid);
+
         this.cameFromAllRecipes = intent.getBooleanExtra("cameFromAllRecipes", false);
         this.cameFromFavorites = intent.getBooleanExtra("cameFromFavorites", false);
-
 
         Glide
                 .with(this)
@@ -65,6 +73,20 @@ public class RecipeActivity extends AppCompatActivity {
                 .into(recipe_IMG_background);
 
         initViews();
+    }
+
+    private void getRecipeFromManager(String rid) {
+        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
+            if(Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid))
+                this.recipe = this.manager.getMyUser().getRecipes().get(i);
+        }
+    }
+
+    private void getRecipeDetails(String rid) {
+        this.name = this.recipe.getName();
+        this.description = this.recipe.getDescription();
+        this.image = this.recipe.getPhoto();
+        this.isFavorite = this.recipe.isFavorite();
     }
 
 
@@ -85,36 +107,84 @@ public class RecipeActivity extends AppCompatActivity {
 
 
     private void addFavoriteClicked() {
+        recipe_IMG_addFavorite.setVisibility(View.INVISIBLE);
+        recipe_IMG_removeFavorite.setVisibility(View.VISIBLE);
 
+        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
+            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
+                this.manager.getMyUser().getRecipes().get(i).setFavorite(true);
+                this.manager.getMyUser().getFavorites().add(this.recipe);
+            }
+        }
     }
 
 
     private void removeFavoriteClicked() {
+        recipe_IMG_addFavorite.setVisibility(View.VISIBLE);
+        recipe_IMG_removeFavorite.setVisibility(View.INVISIBLE);
 
+        for (int i = 0; i < this.manager.getMyUser().getFavorites().size(); i++) {
+            if (Objects.equals(this.manager.getMyUser().getFavorites().get(i).getRid(), rid)) {
+                this.manager.getMyUser().getFavorites().remove(i);
+            }
+        }
+
+        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
+            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
+                this.manager.getMyUser().getRecipes().get(i).setFavorite(false);
+            }
+        }
+    }
+
+
+    private void deleteRecipeClicked() {
+
+        deleteRecipeFromDataManager();
+
+        Intent intent = new Intent(RecipeActivity.this, AllRecipesActivity.class);
+        this.cameFromAllRecipes = false;
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void deleteRecipeFromDataManager() {
+        for (int i = 0; i < this.manager.getMyUser().getFavorites().size(); i++) {
+            if (Objects.equals(this.manager.getMyUser().getFavorites().get(i).getRid(), rid)) {
+                this.manager.getMyUser().getFavorites().remove(i);
+            }
+        }
+
+        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
+            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
+                this.manager.getMyUser().getRecipes().remove(i);
+            }
+        }
     }
 
 
     private void initViews() {
         recipe_TXT_recipeName.setText(this.name);
 
-        recipe_IMG_dishPhoto.setImageURI(this.photo);
+        recipe_IMG_dishPhoto.setImageURI(this.image);
 
         recipe_TXT_dishDescription.setText(this.description);
 
         if(this.isFavorite){
             recipe_IMG_addFavorite.setVisibility(View.INVISIBLE);
             recipe_IMG_removeFavorite.setVisibility(View.VISIBLE);
-
-            recipe_IMG_removeFavorite.setOnClickListener(v -> removeFavoriteClicked());
         }
         else{
             recipe_IMG_addFavorite.setVisibility(View.VISIBLE);
             recipe_IMG_removeFavorite.setVisibility(View.INVISIBLE);
-
-            recipe_IMG_addFavorite.setOnClickListener(v -> addFavoriteClicked());
         }
 
+        if(this.cameFromFavorites)
+            recipe_IMG_deleteRecipe.setVisibility(View.INVISIBLE);
+
+        recipe_IMG_removeFavorite.setOnClickListener(v -> removeFavoriteClicked());
+        recipe_IMG_addFavorite.setOnClickListener(v -> addFavoriteClicked());
         recipe_IMG_back.setOnClickListener(v-> backClicked());
+        recipe_IMG_deleteRecipe.setOnClickListener(v -> deleteRecipeClicked());
     }
 
 
@@ -126,5 +196,6 @@ public class RecipeActivity extends AppCompatActivity {
         recipe_IMG_back = findViewById(R.id.recipe_IMG_back);
         recipe_IMG_addFavorite = findViewById(R.id.recipe_IMG_addFavorite);
         recipe_IMG_removeFavorite = findViewById(R.id.recipe_IMG_removeFavorite);
+        recipe_IMG_deleteRecipe = findViewById(R.id.recipe_IMG_deleteRecipe);
     }
 }

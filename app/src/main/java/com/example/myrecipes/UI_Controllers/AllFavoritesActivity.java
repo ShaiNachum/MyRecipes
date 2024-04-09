@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Adapters.FavoriteAdapter;
+import com.example.myrecipes.Adapters.RecipeAdapter;
 import com.example.myrecipes.App;
 import com.example.myrecipes.Interfaces.RecipeCallback;
 import com.example.myrecipes.Models.Recipe;
@@ -26,8 +27,8 @@ public class AllFavoritesActivity extends AppCompatActivity {
     private ShapeableImageView allFavorites_IMG_background;
     private RecyclerView allFavorites_LST_recipes;
     private ShapeableImageView allFavorites_IMG_back;
-    private User user;
     private DataManager manager;
+    private FavoriteAdapter favoriteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class AllFavoritesActivity extends AppCompatActivity {
 
         allFavorites_LST_recipes.setLayoutManager(linearLayoutManager);
 
-        FavoriteAdapter favoriteAdapter = new FavoriteAdapter(this, this.manager.getMyUser().getFavorites());
+        this.favoriteAdapter = new FavoriteAdapter(this, this.manager.getMyUser().getFavorites());
 
         allFavorites_LST_recipes.setAdapter(favoriteAdapter);
 

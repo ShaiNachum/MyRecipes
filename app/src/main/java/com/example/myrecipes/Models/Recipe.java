@@ -1,10 +1,6 @@
 package com.example.myrecipes.Models;
 
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 
 public class Recipe{
     private String rid;
@@ -16,12 +12,11 @@ public class Recipe{
     public Recipe(){
     }
 
-    public Recipe(String rid, String name, String description, Uri photo, Boolean isFavorite) {
+    public Recipe(String rid, String name, String description, Uri photo) {
         this.rid = rid;
         this.name = name;
         this.description = description;
         this.photo = photo;
-        this.isFavorite = isFavorite;
     }
 
     public String getName() {
