@@ -22,12 +22,12 @@ import java.util.ArrayList;
 //The adapter connect between all the object and all the views
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>{
     private Context context;
-    private ArrayList<Recipe> favorites;
+    private ArrayList<Recipe> myFavorites;
     private RecipeCallback recipeCallback;
 
     public FavoriteAdapter(Context context, ArrayList<Recipe> favorites) {
         this.context = context;
-        this.favorites = favorites;
+        this.myFavorites = favorites;
     }
 
     public FavoriteAdapter setRecipeCallback(RecipeCallback recipeCallback) {
@@ -52,11 +52,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
     @Override
     public int getItemCount() {
-        return favorites == null ? 0 : favorites.size();
+        return myFavorites == null ? 0 : myFavorites.size();
     }
 
     private Recipe getItem(int position){
-        return favorites.get(position);
+        return myFavorites.get(position);
     }
 
 

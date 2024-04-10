@@ -27,7 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private MaterialTextView menu_LBL_favorites;
     private ShapeableImageView menu_IMG_favorites;
     private ShapeableImageView menu_IMG_logOut;
-    private String uid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

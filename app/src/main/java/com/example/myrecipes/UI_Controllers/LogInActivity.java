@@ -29,8 +29,6 @@ import java.util.List;
 
 public class LogInActivity extends AppCompatActivity {
     private ShapeableImageView login_IMG_background;
-    private FirebaseAuth auth;
-    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,19 +87,13 @@ public class LogInActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
+
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             DataManager manager = DataManager.getInstance();
-            manager.loadBasicInformation();
-            //manager.setUser(user);
 
+            manager.setUser(user);
+            manager.initUserDataFromFirebase();
 
-
-
-//            manager.setUid(user);
-//            manager.InitGeneralData();
-//            manager.getFbmanager().LoadUserFromFBRTDB(user); //FIREBASE REALTIME DATABASE
-//            fbManager.LoadUserFromFBRTDB(user); //FIREBASE REALTIME DATABASE
-            int x = 10;
             Intent intent = new Intent(LogInActivity.this, MenuActivity.class);
             startActivity(intent);
             finish();

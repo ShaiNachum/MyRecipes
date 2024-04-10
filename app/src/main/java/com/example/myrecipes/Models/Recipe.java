@@ -2,21 +2,32 @@ package com.example.myrecipes.Models;
 
 import android.net.Uri;
 
+import com.example.myrecipes.Utilities.DataManager;
+
 public class Recipe{
-    private String rid;
+    private int rid;
     private String name = "";
     private String description = "";
     private Uri photo;
     private boolean isFavorite = false;
+    private DataManager manager = DataManager.getInstance();
 
     public Recipe(){
     }
 
-    public Recipe(String rid, String name, String description, Uri photo) {
+    public Recipe(String name, String description, Uri photo) {
+        this.rid = manager.generateID();
+        this.name = name;
+        this.description = description;
+        this.photo = photo;
+    }
+
+    public Recipe(int rid, String name, String description, Uri photo, Boolean isFavorite) {
         this.rid = rid;
         this.name = name;
         this.description = description;
         this.photo = photo;
+        this.isFavorite = isFavorite;
     }
 
     public String getName() {
@@ -46,11 +57,11 @@ public class Recipe{
         return this;
     }
 
-    public String getRid() {
+    public int getRid() {
         return rid;
     }
 
-    public Recipe setRid(String rid) {
+    public Recipe setRid(int rid) {
         this.rid = rid;
         return this;
     }

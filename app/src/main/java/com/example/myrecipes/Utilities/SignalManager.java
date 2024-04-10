@@ -7,7 +7,7 @@ import android.os.Vibrator;
 import android.widget.Toast;
 
 public class SignalManager {
-    private static SignalManager instance = null;
+    private static SignalManager instance;
     private Context context;
     private static Vibrator vibrator;
 

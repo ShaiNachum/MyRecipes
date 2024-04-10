@@ -3,9 +3,7 @@ package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.ext.SdkExtensions;
 import android.provider.MediaStore;
 import android.widget.EditText;
 
@@ -14,8 +12,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.RequiresExtension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -44,7 +40,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private DataManager manager;
     private ActivityResultLauncher<Intent> resultLauncher;
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,31 +65,31 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         initViews();
 
-        registerResult();
+        //registerResult();
     }
 
 
-    private void registerResult(){
-        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        try{
-                            assert result.getData() != null;
-                            imageUri = result.getData().getData();
-                            addRecipe_IMG_dishPhoto.setImageURI(imageUri);
-                        }catch (Exception e){
-                            SignalManager.getInstance().toast("No Image Selected");
-                            SignalManager.getInstance().vibrate(SMALL_VIBRATE);
-                        }
-                    }
-                });
-    }
+//    private void registerResult(){
+//        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        try{
+//                            assert result.getData() != null;
+//                            imageUri = result.getData().getData();
+//                            addRecipe_IMG_dishPhoto.setImageURI(imageUri);
+//                        }catch (Exception e){
+//                            SignalManager.getInstance().toast("No Image Selected");
+//                            SignalManager.getInstance().vibrate(SMALL_VIBRATE);
+//                        }
+//                    }
+//                });
+//    }
 
 
     private void addPhotoClicked() {
-        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-        resultLauncher.launch(intent);
+//        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+//        resultLauncher.launch(intent);
     }
 
 
@@ -108,13 +104,13 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
-        Recipe recipe = new Recipe("6666", this.dishName, this.dishDescription, this.imageUri);//(String rid, String name, String description, Uri photo)
+        Recipe recipe = new Recipe(this.dishName, this.dishDescription, this.imageUri);
 
-        this.manager.getMyUser().getRecipes().add(recipe);
+        this.manager.addRecipe(recipe);
 
         Intent intent = new Intent(AddRecipeActivity.this, MenuActivity.class);
         startActivity(intent);
-        this.finish();
+        finish();
     }
 
 
