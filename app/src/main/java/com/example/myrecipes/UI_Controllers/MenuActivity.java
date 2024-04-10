@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
-import com.example.myrecipes.Models.Recipe;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,6 +40,7 @@ public class MenuActivity extends AppCompatActivity {
             return insets;
         });
 
+
         findViews();
 
         Glide
@@ -52,6 +52,7 @@ public class MenuActivity extends AppCompatActivity {
 
         initViews();
     }
+
 
     private void signOutClicked(){
         logOut();

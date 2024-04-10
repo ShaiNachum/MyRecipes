@@ -1,7 +1,6 @@
 package com.example.myrecipes.UI_Controllers;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -15,11 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Adapters.FavoriteAdapter;
-import com.example.myrecipes.Adapters.RecipeAdapter;
-import com.example.myrecipes.App;
-import com.example.myrecipes.Interfaces.RecipeCallback;
-import com.example.myrecipes.Models.Recipe;
-import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 

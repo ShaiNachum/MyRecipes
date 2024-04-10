@@ -1,9 +1,11 @@
 package com.example.myrecipes.UI_Controllers;
 
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ext.SdkExtensions;
 import android.provider.MediaStore;
 import android.widget.EditText;
 
@@ -12,6 +14,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresExtension;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -21,7 +24,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
-import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.DataManager;
 import com.example.myrecipes.Utilities.SignalManager;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -42,6 +44,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private DataManager manager;
     private ActivityResultLauncher<Intent> resultLauncher;
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         try{
+                            assert result.getData() != null;
                             imageUri = result.getData().getData();
                             addRecipe_IMG_dishPhoto.setImageURI(imageUri);
                         }catch (Exception e){
@@ -87,7 +91,6 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
 
-    @RequiresExtension(extension = Build.VERSION_CODES.R, version = 2)
     private void addPhotoClicked() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
@@ -117,6 +120,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void initViews() {
         addRecipe_IMG_addPhoto.setOnClickListener(v -> addPhotoClicked());
+
         addRecipe_IMG_save.setOnClickListener(v -> saveClicked());
         addRecipe_IMG_cancel.setOnClickListener((v -> cancelClicked()));
     }

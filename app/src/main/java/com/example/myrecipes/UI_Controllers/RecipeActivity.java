@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
-import com.example.myrecipes.Models.User;
 import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
@@ -110,12 +109,7 @@ public class RecipeActivity extends AppCompatActivity {
         recipe_IMG_addFavorite.setVisibility(View.INVISIBLE);
         recipe_IMG_removeFavorite.setVisibility(View.VISIBLE);
 
-        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
-            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
-                this.manager.getMyUser().getRecipes().get(i).setFavorite(true);
-                this.manager.getMyUser().getFavorites().add(this.recipe);
-            }
-        }
+        manager.addFavorite(this.recipe, this.rid);
     }
 
 
@@ -123,42 +117,18 @@ public class RecipeActivity extends AppCompatActivity {
         recipe_IMG_addFavorite.setVisibility(View.VISIBLE);
         recipe_IMG_removeFavorite.setVisibility(View.INVISIBLE);
 
-        for (int i = 0; i < this.manager.getMyUser().getFavorites().size(); i++) {
-            if (Objects.equals(this.manager.getMyUser().getFavorites().get(i).getRid(), rid)) {
-                this.manager.getMyUser().getFavorites().remove(i);
-            }
-        }
-
-        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
-            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
-                this.manager.getMyUser().getRecipes().get(i).setFavorite(false);
-            }
-        }
+        manager.removeFavorite(this.rid);
     }
 
 
     private void deleteRecipeClicked() {
 
-        deleteRecipeFromDataManager();
+        manager.deleteRecipe(this.rid);
 
         Intent intent = new Intent(RecipeActivity.this, AllRecipesActivity.class);
         this.cameFromAllRecipes = false;
         startActivity(intent);
         this.finish();
-    }
-
-    private void deleteRecipeFromDataManager() {
-        for (int i = 0; i < this.manager.getMyUser().getFavorites().size(); i++) {
-            if (Objects.equals(this.manager.getMyUser().getFavorites().get(i).getRid(), rid)) {
-                this.manager.getMyUser().getFavorites().remove(i);
-            }
-        }
-
-        for (int i = 0; i < this.manager.getMyUser().getRecipes().size(); i++) {
-            if (Objects.equals(this.manager.getMyUser().getRecipes().get(i).getRid(), rid)) {
-                this.manager.getMyUser().getRecipes().remove(i);
-            }
-        }
     }
 
 
