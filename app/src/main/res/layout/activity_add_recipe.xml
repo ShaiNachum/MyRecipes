@@ -56,6 +56,7 @@
         android:layout_marginTop="15dp"
         android:isScrollContainer="true"
         android:inputType="textMultiLine"
+        android:cursorVisible="true"
         android:text=""
         android:hint="Enter Description"
         android:textSize="15sp"

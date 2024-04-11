@@ -40,7 +40,6 @@ public class MenuActivity extends AppCompatActivity {
             return insets;
         });
 
-
         findViews();
 
         Glide
@@ -54,7 +53,7 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 
-    private void signOutClicked(){
+    private void signOutClicked() {
         logOut();
     }
 
@@ -69,6 +68,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void addRecipeClicked() {
         Intent intent = new Intent(MenuActivity.this, AddRecipeActivity.class);
@@ -89,12 +89,14 @@ public class MenuActivity extends AppCompatActivity {
         finish();
     }
 
+
     private void initViews() {
         menu_IMG_addRecipe.setOnClickListener(v -> addRecipeClicked());
         menu_IMG_allRecipes.setOnClickListener(v -> allRecipesClicked());
         menu_IMG_favorites.setOnClickListener(v -> favoritesClicked());
         menu_IMG_logOut.setOnClickListener(v -> signOutClicked());
     }
+
 
     private void findViews() {
         menu_IMG_background = findViewById(R.id.menu_IMG_background);

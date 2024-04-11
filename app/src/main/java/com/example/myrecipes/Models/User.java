@@ -43,9 +43,11 @@ public class User {
         return favorites;
     }
 
+
     public void setFavorites(ArrayList<Recipe> favorites) {
         this.favorites = favorites;
     }
+
 
     public void initFavorites(){
         for (int i = 0; i < this.recipes.size(); i++) {
@@ -54,11 +56,18 @@ public class User {
         }
     }
 
+
     public ArrayList<Integer> getMyRecipesRids() {
         return myRecipesRids;
     }
 
+
     public void setMyRecipesRids(ArrayList<Integer> myRecipesRids) {
         this.myRecipesRids = myRecipesRids;
+    }
+
+    public void initMyRecipesRids() {
+        for (int i = 0; i < this.recipes.size(); i++)
+                this.myRecipesRids.add(recipes.get(i).getRid());
     }
 }

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Utilities.DataManager;
+import com.example.myrecipes.Utilities.ImageLoader;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -47,8 +48,6 @@ public class RecipeActivity extends AppCompatActivity {
 
         manager = DataManager.getInstance();
 
-        findViews();
-
         Intent intent = getIntent();
         this.rid = intent.getIntExtra("rid", -1);
 
@@ -56,6 +55,10 @@ public class RecipeActivity extends AppCompatActivity {
 
         this.cameFromAllRecipes = intent.getBooleanExtra("cameFromAllRecipes", false);
         this.cameFromFavorites = intent.getBooleanExtra("cameFromFavorites", false);
+
+        findViews();
+
+        ImageLoader.getInstance().load(this.recipe.getPhoto(), this.recipe_IMG_dishPhoto);
 
         Glide
                 .with(this)
@@ -69,13 +72,12 @@ public class RecipeActivity extends AppCompatActivity {
 
 
     private void backClicked() {
-        if(this.cameFromAllRecipes){
+        if (this.cameFromAllRecipes) {
             Intent intent = new Intent(RecipeActivity.this, AllRecipesActivity.class);
             this.cameFromAllRecipes = false;
             startActivity(intent);
             this.finish();
-        }
-        else if(this.cameFromFavorites){
+        } else if (this.cameFromFavorites) {
             Intent intent = new Intent(RecipeActivity.this, AllFavoritesActivity.class);
             this.cameFromFavorites = false;
             startActivity(intent);
@@ -114,25 +116,22 @@ public class RecipeActivity extends AppCompatActivity {
     private void initViews() {
         recipe_TXT_recipeName.setText(this.recipe.getName());
 
-        recipe_IMG_dishPhoto.setImageURI(this.recipe.getPhoto());
-
         recipe_TXT_dishDescription.setText(this.recipe.getDescription());
 
-        if(this.recipe.isFavorite()){
+        if (this.recipe.isFavorite()) {
             recipe_IMG_addFavorite.setVisibility(View.INVISIBLE);
             recipe_IMG_removeFavorite.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             recipe_IMG_addFavorite.setVisibility(View.VISIBLE);
             recipe_IMG_removeFavorite.setVisibility(View.INVISIBLE);
         }
 
-        if(this.cameFromFavorites)
+        if (this.cameFromFavorites)
             recipe_IMG_deleteRecipe.setVisibility(View.INVISIBLE);
 
         recipe_IMG_removeFavorite.setOnClickListener(v -> removeFavoriteClicked());
         recipe_IMG_addFavorite.setOnClickListener(v -> addFavoriteClicked());
-        recipe_IMG_back.setOnClickListener(v-> backClicked());
+        recipe_IMG_back.setOnClickListener(v -> backClicked());
         recipe_IMG_deleteRecipe.setOnClickListener(v -> deleteRecipeClicked());
     }
 

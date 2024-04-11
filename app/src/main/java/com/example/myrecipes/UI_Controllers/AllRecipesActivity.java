@@ -16,8 +16,10 @@ import com.example.myRecipes.R;
 import com.example.myrecipes.Adapters.RecipeAdapter;
 import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.textview.MaterialTextView;
 
 public class AllRecipesActivity extends AppCompatActivity {
+    private MaterialTextView allRecipes_TXT_pageName;
     private ShapeableImageView allRecipes_IMG_background;
     private RecyclerView allRecipes_LST_recipes;
     private ShapeableImageView allRecipes_IMG_back;
@@ -81,6 +83,7 @@ public class AllRecipesActivity extends AppCompatActivity {
 
 
     private void findViews() {
+        allRecipes_TXT_pageName = findViewById(R.id.allRecipes_TXT_pageName);
         allRecipes_IMG_background = findViewById(R.id.allRecipes_IMG_background);
         allRecipes_LST_recipes = findViewById(R.id.allRecipes_LST_recipes);
         allRecipes_IMG_back = findViewById(R.id.allRecipes_IMG_back);

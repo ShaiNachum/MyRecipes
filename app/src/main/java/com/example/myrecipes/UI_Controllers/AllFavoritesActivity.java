@@ -16,8 +16,10 @@ import com.example.myRecipes.R;
 import com.example.myrecipes.Adapters.FavoriteAdapter;
 import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.textview.MaterialTextView;
 
 public class AllFavoritesActivity extends AppCompatActivity {
+    private MaterialTextView allFavorites_TXT_pageName;
     private ShapeableImageView allFavorites_IMG_background;
     private RecyclerView allFavorites_LST_recipes;
     private ShapeableImageView allFavorites_IMG_back;
@@ -80,6 +82,7 @@ public class AllFavoritesActivity extends AppCompatActivity {
 
 
     private void findViews() {
+        allFavorites_TXT_pageName = findViewById(R.id.allFavorites_TXT_pageName);
         allFavorites_IMG_background = findViewById(R.id.allFavorites_IMG_background);
         allFavorites_LST_recipes = findViewById(R.id.allFavorites_LST_recipes);
         allFavorites_IMG_back = findViewById(R.id.allFavorites_IMG_back);

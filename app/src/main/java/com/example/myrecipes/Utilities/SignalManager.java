@@ -28,11 +28,13 @@ public class SignalManager {
         return instance;
     }
 
+
     public void toast(String message) {
         Toast
                 .makeText(context, message, Toast.LENGTH_SHORT)
                 .show();
     }
+
 
     public void vibrate(long milliseconds) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

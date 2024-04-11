@@ -13,11 +13,25 @@
         android:layout_height="match_parent"
         />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/allFavorites_TXT_pageName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:text="Favorites"
+        android:textStyle="italic"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/allFavorites_LST_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/allFavorites_TXT_pageName"
         tools:listitem="@layout/recipe_item"
         android:layout_above="@+id/allFavorites_IMG_back"
         />

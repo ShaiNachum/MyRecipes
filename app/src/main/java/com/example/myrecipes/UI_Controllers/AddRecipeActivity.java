@@ -1,17 +1,12 @@
 package com.example.myrecipes.UI_Controllers;
 
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Utilities.DataManager;
-import com.example.myrecipes.Utilities.SignalManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
 
@@ -100,7 +94,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
 
-    private void saveClicked(){
+    private void saveClicked() {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 

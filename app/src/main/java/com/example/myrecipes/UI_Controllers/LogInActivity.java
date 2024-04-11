@@ -101,5 +101,4 @@ public class LogInActivity extends AppCompatActivity {
             Log.d("LogInError", "Sign in failed");
         }
     }
-
 }

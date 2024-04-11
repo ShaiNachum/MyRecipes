@@ -53,17 +53,6 @@ public class DataManager {
         return myUser;
     }
 
-    public int generateID() {
-        int id = 555;
-
-        while (myUser.getMyRecipesRids().contains(id))
-            id++;
-
-        myUser.getMyRecipesRids().add(id);
-
-        return id;
-    }
-
 
     public void addFavorite(Recipe recipe, int rid) {
         for (int i = 0; i < this.myUser.getRecipes().size(); i++) {
@@ -90,7 +79,7 @@ public class DataManager {
             }
         }
 
-        removeRecipeToAllFavoritesOnFirebase(getRecipeById(rid));
+        removeRecipeFromAllFavoritesOnFirebase(getRecipeById(rid), false);
     }
 
 
@@ -108,6 +97,11 @@ public class DataManager {
                 this.myUser.getRecipes().remove(i);
             }
         }
+
+        for (int i = 0; i < this.myUser.getMyRecipesRids().size(); i++) {
+            if (this.myUser.getMyRecipesRids().get(i) == rid)
+                this.myUser.getMyRecipesRids().remove(i);
+        }
     }
 
 
@@ -119,17 +113,6 @@ public class DataManager {
 
     public DatabaseReference getRef() {
         return ref;
-    }
-
-
-    //Add recipe to all Recipes list.
-    private void addRecipeToAllRecipesOnFirebase(Recipe recipe) {
-        this.ref.child("all_recipes").child("" + recipe.getRid()).child("id").setValue(recipe.getRid());
-        if (recipe.getPhoto() != null)
-            this.ref.child("all_recipes").child("" + recipe.getRid()).child("uri").setValue(recipe.getPhoto().toString());
-        this.ref.child("all_recipes").child("" + recipe.getRid()).child("isFavorite").setValue(recipe.isFavorite());
-        this.ref.child("all_recipes").child("" + recipe.getRid()).child("name").setValue(recipe.getName());
-        this.ref.child("all_recipes").child("" + recipe.getRid()).child("description").setValue(recipe.getDescription());
     }
 
 
@@ -152,12 +135,19 @@ public class DataManager {
                     String description = recipeSnapshot.child("description").getValue(String.class);
                     String uri = recipeSnapshot.child("uri").getValue(String.class);
                     boolean isFavorite = recipeSnapshot.child("isFavorite").getValue(Boolean.class);
-                    DatabaseReference recipeRef = myRef.child(recipeId+"");
+                    DatabaseReference recipeRef = myRef.child(recipeId + "");
 
-                    Recipe recipe = new Recipe(recipeId ,name, description, Uri.parse(uri), isFavorite);
+                    Recipe recipe = new Recipe();
+                    recipe.setName(name).setDescription(description).setFavorite(isFavorite).setRid(recipeId);
+                    if(uri != null)
+                        recipe.setPhoto(Uri.parse(uri));
+                    else
+                        recipe.setPhoto(null);
+
                     myUser.getRecipes().add(recipe);
                 }
                 myUser.initFavorites();
+                myUser.initMyRecipesRids();
             }
 
             @Override
@@ -169,11 +159,14 @@ public class DataManager {
     }
 
 
-    // update the user's all recipes and all favorite lists when deleting a recipe.
-    public void deleteRecipeFromFirebase(Recipe recipe) {
-        this.ref.child("all_recipes").child("" + recipe.getRid()).removeValue();
-
-        removeRecipeToAllFavoritesOnFirebase(recipe);
+    //Add recipe to all Recipes list.
+    private void addRecipeToAllRecipesOnFirebase(Recipe recipe) {
+        this.ref.child("all_recipes").child("" + recipe.getRid()).child("id").setValue(recipe.getRid());
+        if (recipe.getPhoto() != null)
+            this.ref.child("all_recipes").child("" + recipe.getRid()).child("uri").setValue(recipe.getPhoto().toString());
+        this.ref.child("all_recipes").child("" + recipe.getRid()).child("isFavorite").setValue(recipe.isFavorite());
+        this.ref.child("all_recipes").child("" + recipe.getRid()).child("name").setValue(recipe.getName());
+        this.ref.child("all_recipes").child("" + recipe.getRid()).child("description").setValue(recipe.getDescription());
     }
 
 
@@ -191,18 +184,48 @@ public class DataManager {
     }
 
 
+    // update the user's all recipes and all favorite lists when deleting a recipe.
+    public void deleteRecipeFromFirebase(Recipe recipe) {
+        this.ref.child("all_recipes").child("" + recipe.getRid()).removeValue();
+
+        removeRecipeFromAllFavoritesOnFirebase(recipe, true);
+    }
+
+
     // update the user's data: 1. The favorite status of specific recipe in all recipes list.
     //                         2. Remove the recipe from all Favorites list.
-    public void removeRecipeToAllFavoritesOnFirebase(Recipe recipe) {
+    public void removeRecipeFromAllFavoritesOnFirebase(Recipe recipe, Boolean recipeDeleted) {
         this.ref.child("all_favorites").child("" + recipe.getRid()).removeValue();
 
-        this.ref.child("all_recipes").child("" + recipe.getRid()).child("isFavorite").setValue(recipe.isFavorite());
+        if(!recipeDeleted)
+            this.ref.child("all_recipes").child("" + recipe.getRid()).child("isFavorite").setValue(recipe.isFavorite());
+    }
+
+
+    public Recipe getRecipeById(int rid) {
+        for (int i = 0; i < this.getMyUser().getRecipes().size(); i++) {
+            if (this.getMyUser().getRecipes().get(i).getRid() == rid)
+                return this.getMyUser().getRecipes().get(i);
+        }
+        return null;
+    }
+
+
+    public int generateID() {
+        int id = 555;
+
+        while (myUser.getMyRecipesRids().contains(id))
+            id++;
+
+        myUser.getMyRecipesRids().add(id);
+
+        return id;
     }
 
 
 //    public void loadBasicInformation() {
 //        myUser.getRecipes();
-
+//
 //        ArrayList<Recipe> recipes = new ArrayList<>();
 //
 //        Recipe recipe1 = new Recipe("pizza", "advadvad", Uri.parse("https://firebasestorage.googleapis.com/v0/b/kinderkit-68d4c.appspot.com/o/eliya.jpg?alt=media&token=9625f48e-5a77-47da-84f1-6130fe6658d5"));
@@ -227,12 +250,4 @@ public class DataManager {
 //        myUser.setRecipes(recipes);
 //        myUser.initFavorites();
 //    }
-
-    public Recipe getRecipeById(int rid) {
-        for (int i = 0; i < this.getMyUser().getRecipes().size(); i++) {
-            if (this.getMyUser().getRecipes().get(i).getRid() == rid)
-                return this.getMyUser().getRecipes().get(i);
-        }
-        return null;
-    }
 }

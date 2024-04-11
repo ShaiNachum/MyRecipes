@@ -25,12 +25,12 @@ public class ImageLoader {
         return instance;
     }
 
-    public void load (Uri uri, ImageView imageView){
+    public void load(Uri uri, ImageView imageView) {
 
         Glide.
                 with(appContext)
                 .load(uri)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.ic_no_image)
                 .into(imageView);
     }
 }
