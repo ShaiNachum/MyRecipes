@@ -35,20 +35,23 @@
         app:srcCompat="@android:drawable/ic_menu_add"
         />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/recipe_TXT_dishDescription"
+    <ScrollView
         android:layout_width="350dp"
         android:layout_height="450dp"
         android:layout_below="@+id/recipe_IMG_dishPhoto"
         android:layout_above="@+id/recipe_IMG_back"
         android:layout_marginBottom="25dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:isScrollContainer="true"
-        android:text="Recipe Description"
-        android:textStyle="italic"
-        android:textSize="25sp"
-        />
+        android:layout_marginTop="15dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recipe_TXT_dishDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Recipe Description"
+            android:textStyle="italic"
+            android:textSize="25sp"
+            />
+    </ScrollView>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/recipe_IMG_back"
@@ -93,4 +96,6 @@
         android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/ic_bin"
         />
+
+
 </RelativeLayout>

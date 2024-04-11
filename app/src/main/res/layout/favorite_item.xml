@@ -55,6 +55,7 @@
                 android:minLines="2"
                 android:layout_centerInParent="true"
                 tools:text="Recipe Name"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="italic"
                 />

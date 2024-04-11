@@ -1,13 +1,21 @@
 package com.example.myrecipes.UI_Controllers;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -32,7 +40,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String dishDescription;
     private Uri imageUri;
     private DataManager manager;
-    private ActivityResultLauncher<Intent> resultLauncher;
+    //private ActivityResultLauncher<Intent> resultLauncher;
 
 
     @Override
@@ -58,32 +66,12 @@ public class AddRecipeActivity extends AppCompatActivity {
                 .into(addRecipe_IMG_background);
 
         initViews();
-
-        //registerResult();
     }
 
 
-//    private void registerResult(){
-//        resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-//                new ActivityResultCallback<ActivityResult>() {
-//                    @Override
-//                    public void onActivityResult(ActivityResult result) {
-//                        try{
-//                            assert result.getData() != null;
-//                            imageUri = result.getData().getData();
-//                            addRecipe_IMG_dishPhoto.setImageURI(imageUri);
-//                        }catch (Exception e){
-//                            SignalManager.getInstance().toast("No Image Selected");
-//                            SignalManager.getInstance().vibrate(SMALL_VIBRATE);
-//                        }
-//                    }
-//                });
-//    }
-
 
     private void addPhotoClicked() {
-//        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-//        resultLauncher.launch(intent);
+
     }
 
 
