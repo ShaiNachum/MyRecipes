@@ -1,21 +1,20 @@
 package com.example.myrecipes.UI_Controllers;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,13 +23,27 @@ import com.bumptech.glide.Glide;
 import com.example.myRecipes.R;
 import com.example.myrecipes.Models.Recipe;
 import com.example.myrecipes.Utilities.DataManager;
+import com.example.myrecipes.Utilities.SignalManager;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.google.firebase.Firebase;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+
+import java.util.UUID;
 
 
 public class AddRecipeActivity extends AppCompatActivity {
-    private static final int SMALL_VIBRATE = 50;
     private ShapeableImageView addRecipe_IMG_background;
     private ShapeableImageView addRecipe_IMG_dishPhoto;
+    private LinearProgressIndicator addRecipe_PI_uploadIndicator;
     private ShapeableImageView addRecipe_IMG_addPhoto;
     private ShapeableImageView addRecipe_IMG_save;
     private ShapeableImageView addRecipe_IMG_cancel;
@@ -40,7 +53,27 @@ public class AddRecipeActivity extends AppCompatActivity {
     private String dishDescription;
     private Uri imageUri;
     private DataManager manager;
-    //private ActivityResultLauncher<Intent> resultLauncher;
+    private StorageReference storageReference;
+    private Uri firebaseImage;
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        if (result.getData() != null) {
+                            imageUri = result.getData().getData();
+                            Glide.with(getApplicationContext())
+                                    .load(imageUri)
+                                    .into(addRecipe_IMG_dishPhoto);
+                            SignalManager.getInstance().toast("Image selected successfully");
+                            uploadImage(imageUri);
+                        } else {
+                            SignalManager.getInstance().toast("No image selected");
+                        }
+                    }
+                }
+            });
 
 
     @Override
@@ -56,6 +89,9 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         manager = DataManager.getInstance();
 
+        FirebaseApp.initializeApp(AddRecipeActivity.this);
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         findViews();
 
         Glide
@@ -69,9 +105,34 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
 
-
     private void addPhotoClicked() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        activityResultLauncher.launch(intent);
+    }
 
+    private void uploadImage(Uri image) {
+        StorageReference reference = storageReference.child(UUID.randomUUID().toString());
+        reference.putFile(image)
+                .addOnSuccessListener(taskSnapshot -> {
+                    reference.getDownloadUrl()
+                            .addOnSuccessListener(uri -> {
+                                firebaseImage = uri;
+                                addRecipe_IMG_save.setVisibility(View.VISIBLE);
+                                SignalManager.getInstance().toast("Image uploaded successfully");
+                            })
+                            .addOnFailureListener(e -> {
+                                SignalManager.getInstance().toast("Fail to get the download url");
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    SignalManager.getInstance().toast("Fail to upload image");
+                })
+                .addOnProgressListener(snapshot -> {
+                    addRecipe_IMG_save.setVisibility(View.INVISIBLE);
+                    addRecipe_PI_uploadIndicator.setMax(Math.toIntExact(snapshot.getTotalByteCount()));
+                    addRecipe_PI_uploadIndicator.setProgress(Math.toIntExact(snapshot.getBytesTransferred()));
+                });
     }
 
 
@@ -86,7 +147,12 @@ public class AddRecipeActivity extends AppCompatActivity {
         this.dishName = addRecipe_TXT_dishName.getText().toString();
         this.dishDescription = addRecipe_TXT_dishDescription.getText().toString();
 
-        Recipe recipe = new Recipe(this.dishName, this.dishDescription, this.imageUri);
+        Recipe recipe;
+
+        if(this.firebaseImage == null)
+            recipe = new Recipe(this.dishName, this.dishDescription, this.imageUri);
+        else
+            recipe = new Recipe(this.dishName, this.dishDescription, this.firebaseImage);
 
         this.manager.addRecipe(recipe);
 
@@ -98,7 +164,6 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private void initViews() {
         addRecipe_IMG_addPhoto.setOnClickListener(v -> addPhotoClicked());
-
         addRecipe_IMG_save.setOnClickListener(v -> saveClicked());
         addRecipe_IMG_cancel.setOnClickListener((v -> cancelClicked()));
     }
@@ -108,6 +173,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         addRecipe_IMG_background = findViewById(R.id.addRecipe_IMG_background);
 
         addRecipe_IMG_dishPhoto = findViewById(R.id.addRecipe_IMG_dishPhoto);
+        addRecipe_PI_uploadIndicator = findViewById(R.id.addRecipe_PI_uploadIndicator);
         addRecipe_IMG_addPhoto = findViewById(R.id.addRecipe_IMG_addPhoto);
 
         addRecipe_TXT_dishName = findViewById(R.id.addRecipe_TXT_dishName);
@@ -117,3 +183,11 @@ public class AddRecipeActivity extends AppCompatActivity {
         addRecipe_IMG_cancel = findViewById(R.id.addRecipe_IMG_cancel);
     }
 }
+
+
+
+/*
+מחיקה מה storage
+להעלות כמה מתכונים
+להעלות לגיטהאב
+*/

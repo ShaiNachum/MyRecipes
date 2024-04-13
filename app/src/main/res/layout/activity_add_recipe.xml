@@ -64,24 +64,32 @@
         android:gravity="left"
         />
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/addRecipe_PI_uploadIndicator"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addRecipe_TXT_dishDescription"
+        android:layout_marginTop="5dp"
+        android:layout_centerInParent="true"
+        />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/addRecipe_IMG_save"
         android:layout_width="100dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         app:srcCompat="@drawable/ic_save"
-        android:layout_below="@id/addRecipe_TXT_dishDescription"
+        android:layout_below="@id/addRecipe_PI_uploadIndicator"
         />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/addRecipe_IMG_cancel"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        app:srcCompat="@drawable/ic_cancel"
+        android:layout_width="170dp"
+        android:layout_height="110dp"
         android:layout_below="@id/addRecipe_IMG_save"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/ic_cancel" />
 
 </RelativeLayout>

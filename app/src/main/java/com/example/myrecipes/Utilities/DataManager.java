@@ -13,8 +13,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 public class DataManager {
     private static DataManager instance;
@@ -22,6 +25,7 @@ public class DataManager {
     private User myUser;
     private DatabaseReference ref;
     private FirebaseDatabase firebaseRTDatabase;
+    private StorageReference storageReference;
 
 
     private DataManager() {
@@ -45,6 +49,7 @@ public class DataManager {
         this.user = user;
         this.myUser = new User(this.user.getUid());
         this.firebaseRTDatabase = FirebaseDatabase.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
         this.ref = firebaseRTDatabase.getReference(this.myUser.getUid() + "");
     }
 
@@ -85,6 +90,8 @@ public class DataManager {
 
     public void deleteRecipe(int rid) {
         deleteRecipeFromFirebase(getRecipeById(rid));
+
+        storageReference.child(getRecipeById(rid).getPhoto().toString()).delete();//????????????????????
 
         for (int i = 0; i < this.myUser.getFavorites().size(); i++) {
             if (this.myUser.getFavorites().get(i).getRid() == rid) {
