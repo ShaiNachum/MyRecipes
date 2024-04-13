@@ -18,6 +18,7 @@ import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
+
 public class AllRecipesActivity extends AppCompatActivity {
     private MaterialTextView allRecipes_TXT_pageName;
     private ShapeableImageView allRecipes_IMG_background;

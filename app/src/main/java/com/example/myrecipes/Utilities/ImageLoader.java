@@ -11,13 +11,16 @@ public class ImageLoader {
     private static ImageLoader instance;
     private static Context appContext;
 
+
     private ImageLoader(Context context) {
         appContext = context;
     }
 
+
     public static ImageLoader getInstance() {
         return instance;
     }
+
 
     public static ImageLoader initImageLoader(Context context) {
         if (instance == null)
@@ -25,8 +28,8 @@ public class ImageLoader {
         return instance;
     }
 
-    public void load(Uri uri, ImageView imageView) {
 
+    public void load(Uri uri, ImageView imageView) {
         Glide.
                 with(appContext)
                 .load(uri)

@@ -71,7 +71,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
 
-    // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {

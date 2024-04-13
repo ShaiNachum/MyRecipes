@@ -23,15 +23,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private RecipeCallback recipeCallback;
 
 
-    public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
+    public RecipeAdapter(Context context, ArrayList<Recipe> recipes) {
         this.context = context;
         this.recipes = recipes;
     }
+
 
     public RecipeAdapter setRecipeCallback(RecipeCallback recipeCallback) {
         this.recipeCallback = recipeCallback;
         return this;
     }
+
 
     @NonNull
     @Override
@@ -40,6 +42,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return new RecipeViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapter.RecipeViewHolder holder, int position) {
         Recipe recipe = getItem(position);
@@ -47,17 +50,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.recipe_LBL_name.setText(recipe.getName());
     }
 
+
     @Override
     public int getItemCount() {
         return recipes.size();
     }
 
-    private Recipe getItem(int position){
+
+    private Recipe getItem(int position) {
         return recipes.get(position);
     }
 
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder{
+    public class RecipeViewHolder extends RecyclerView.ViewHolder {
         private ShapeableImageView recipe_IMG_image;
         private MaterialTextView recipe_LBL_name;
 
@@ -67,7 +72,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipe_LBL_name = itemView.findViewById(R.id.recipe_LBL_name);
 
             itemView.setOnClickListener(v -> {
-                if(recipeCallback != null)
+                if (recipeCallback != null)
                     recipeCallback.recipeClicked(getItem(getAdapterPosition()), getAdapterPosition());
             });
         }

@@ -17,7 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Iterator;
-import java.util.UUID;
+
 
 public class DataManager {
     private static DataManager instance;
@@ -91,8 +91,6 @@ public class DataManager {
     public void deleteRecipe(int rid) {
         deleteRecipeFromFirebase(getRecipeById(rid));
 
-        storageReference.child(getRecipeById(rid).getPhoto().toString()).delete();//????????????????????
-
         for (int i = 0; i < this.myUser.getFavorites().size(); i++) {
             if (this.myUser.getFavorites().get(i).getRid() == rid) {
                 this.myUser.getFavorites().remove(i);
@@ -117,6 +115,7 @@ public class DataManager {
 
         addRecipeToAllRecipesOnFirebase(recipe);
     }
+
 
     public DatabaseReference getRef() {
         return ref;
@@ -146,7 +145,7 @@ public class DataManager {
 
                     Recipe recipe = new Recipe();
                     recipe.setName(name).setDescription(description).setFavorite(isFavorite).setRid(recipeId);
-                    if(uri != null)
+                    if (uri != null)
                         recipe.setPhoto(Uri.parse(uri));
                     else
                         recipe.setPhoto(null);
@@ -204,7 +203,7 @@ public class DataManager {
     public void removeRecipeFromAllFavoritesOnFirebase(Recipe recipe, Boolean recipeDeleted) {
         this.ref.child("all_favorites").child("" + recipe.getRid()).removeValue();
 
-        if(!recipeDeleted)
+        if (!recipeDeleted)
             this.ref.child("all_recipes").child("" + recipe.getRid()).child("isFavorite").setValue(recipe.isFavorite());
     }
 

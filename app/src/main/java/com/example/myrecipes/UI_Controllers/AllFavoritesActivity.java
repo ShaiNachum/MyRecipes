@@ -18,6 +18,7 @@ import com.example.myrecipes.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
+
 public class AllFavoritesActivity extends AppCompatActivity {
     private MaterialTextView allFavorites_TXT_pageName;
     private ShapeableImageView allFavorites_IMG_background;
@@ -25,6 +26,7 @@ public class AllFavoritesActivity extends AppCompatActivity {
     private ShapeableImageView allFavorites_IMG_back;
     private DataManager manager;
     private FavoriteAdapter favoriteAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,9 +11,11 @@ public class SignalManager {
     private Context context;
     private static Vibrator vibrator;
 
+
     private SignalManager(Context context) {
         this.context = context;
     }
+
 
     public static void init(Context context) {
         synchronized (SignalManager.class) {
@@ -23,6 +25,7 @@ public class SignalManager {
             }
         }
     }
+
 
     public static SignalManager getInstance() {
         return instance;

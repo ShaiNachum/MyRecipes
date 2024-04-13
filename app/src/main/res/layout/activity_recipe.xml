@@ -49,6 +49,7 @@
             android:layout_height="match_parent"
             android:text="Recipe Description"
             android:textStyle="italic"
+            android:textColor="@color/black"
             android:textSize="25sp"
             />
     </ScrollView>

@@ -1,7 +1,5 @@
 package com.example.myrecipes.UI_Controllers;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +11,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,16 +23,9 @@ import com.example.myrecipes.Utilities.DataManager;
 import com.example.myrecipes.Utilities.SignalManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
-import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.UUID;
 
@@ -111,6 +101,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         activityResultLauncher.launch(intent);
     }
 
+
     private void uploadImage(Uri image) {
         StorageReference reference = storageReference.child(UUID.randomUUID().toString());
         reference.putFile(image)
@@ -149,7 +140,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         Recipe recipe;
 
-        if(this.firebaseImage == null)
+        if (this.firebaseImage == null)
             recipe = new Recipe(this.dishName, this.dishDescription, this.imageUri);
         else
             recipe = new Recipe(this.dishName, this.dishDescription, this.firebaseImage);
@@ -183,11 +174,3 @@ public class AddRecipeActivity extends AppCompatActivity {
         addRecipe_IMG_cancel = findViewById(R.id.addRecipe_IMG_cancel);
     }
 }
-
-
-
-/*
-מחיקה מה storage
-להעלות כמה מתכונים
-להעלות לגיטהאב
-*/
