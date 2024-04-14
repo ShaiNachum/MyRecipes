@@ -69,4 +69,4 @@
 
 ## Firebase Video Example:
 
-
+[my_recipe_firebase_vid.zip](https://github.com/ShaiNachum/MyRecipes/files/14970467/my_recipe_firebase_vid.zip)
