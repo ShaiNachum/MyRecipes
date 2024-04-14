@@ -64,5 +64,9 @@
   * Firebase storage.
   * Firebase authentication.
 
-### Video Example:
-    
+### Application Video Example:
+  [my_recipe_vid.zip](https://github.com/ShaiNachum/MyRecipes/files/14970428/my_recipe_vid.zip)
+
+## Firebase Video Example:
+
+
