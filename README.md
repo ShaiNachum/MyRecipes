@@ -67,6 +67,11 @@
 ### Application Video Example:
   [my_recipe_vid.zip](https://github.com/ShaiNachum/MyRecipes/files/14970428/my_recipe_vid.zip)
 
-## Firebase Video Example:
+### Firebase Video Example:
 
 [my_recipe_firebase_vid.zip](https://github.com/ShaiNachum/MyRecipes/files/14970467/my_recipe_firebase_vid.zip)
+
+### Powerpoint Presentation:
+
+[myRecipe_presentation.pptx](https://github.com/ShaiNachum/MyRecipes/files/15052206/myRecipe_presentation.pptx)
+
